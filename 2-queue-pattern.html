@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>The queue pattern example</title>
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"
+        ></script>
+        <script src="./2-heavy-script.js" async defer></script>
+        <!-- <script>
+            console.time('initialization');
+        </script> -->
+    </head>
+    <body>
+        <script>
+            // client initialization
+            var Library = window.Library || {};
+            Library.queue = Library.queue || [];
+
+            // let's send commands to the library!
+            // they'll be executed when library will be actually loaded
+
+            Library.queue.push(() => {
+                //console.timeEnd('initialization');
+                console.log('Hello Come To Code 2023! ');
+                document.getElementById('target').innerHTML =
+                    'Hello Come To Code 2023!';
+            });
+        </script>
+        <h1 id="target"></h1>
+    </body>
+</html>

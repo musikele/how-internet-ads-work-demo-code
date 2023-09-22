@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <script
+            async
+            src="//cdn.jsdelivr.net/npm/prebid.js@latest/dist/not-for-prod/prebid.js"
+        ></script>
+        <script>
+            function loadIframe(element, html) {
+                // Create an iframe element
+                var iframe = document.createElement('iframe');
+
+                // Set the source of the iframe to a blank page
+                iframe.src = 'about:blank';
+
+                // Set the width and height of the iframe
+                iframe.width = '400';
+                iframe.height = '300';
+
+                // Get a reference to the container div where the iframe will be placed
+                var container = document.getElementById(element);
+
+                // Append the iframe to the container
+                container.appendChild(iframe);
+
+                // Get the document of the iframe
+                var iframeDocument =
+                    iframe.contentDocument || iframe.contentWindow.document;
+
+                // Define the custom HTML content
+                var customHTML = html;
+
+                // Write the custom HTML content into the iframe
+                iframeDocument.open();
+                iframeDocument.write(customHTML);
+                iframeDocument.close();
+            }
+
+            var div_1_sizes = [
+                [300, 250],
+                [300, 600],
+            ];
+            var PREBID_TIMEOUT = 4000;
+            var FAILSAFE_TIMEOUT = 6000;
+
+            var adUnits = [
+                {
+                    code: '/19968336/header-bid-tag-0',
+                    mediaTypes: {
+                        banner: {
+                            sizes: div_1_sizes,
+                        },
+                    },
+                    bids: [
+                        {
+                            bidder: 'appnexus',
+                            params: {
+                                placementId: 13144370,
+                            },
+                        },
+                        {
+                            bidder: 'rubicon',
+                            params: {
+                                accountId: 14062,
+                                siteId: 70608,
+                                zoneId: 498816,
+                            },
+                        },
+                    ],
+                },
+            ];
+
+            var pbjs = pbjs || {};
+            pbjs.que = pbjs.que || [];
+
+            pbjs.que.push(function () {
+                pbjs.addAdUnits(adUnits);
+                pbjs.requestBids({
+                    bidsBackHandler: (bids) => {
+                        const highestBid = pbjs.getHighestCpmBids(
+                            '/19968336/header-bid-tag-0'
+                        );
+                        if (highestBid && highestBid[0]) {
+                            loadIframe('div-1', highestBid[0].ad);
+                        }
+                    },
+                    timeout: PREBID_TIMEOUT,
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <h2>Basic Prebid.js Example</h2>
+        <h5>Div-1</h5>
+        <div id="div-1"></div>
+    </body>
+</html>
